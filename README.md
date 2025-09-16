@@ -20,10 +20,10 @@ ros2-gazebo-robot/
 ├── worlds/
 │   └── myworld.sdf
 ├── parameters/
-│   └── myworld.sdf
+│   └── ros_gz_bridge.yaml
 └── README.md
 
-Requirements
-ROS2 Jazzy 
-Gazebo 
-ros-gz-bridge for topic bridging
+## Requirements
+- ROS2 Jazzy.
+- Gazebo.
+- ROS2–Gazebo bridge for topic communication.
