@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <gazebo reference='base_link'>
+    <mu1>.2</mu1>
+    <mu2>.2</mu2>
+  </gazebo>
+  
+  <gazebo reference='wheel_back_left'>
+    <mu1>.2</mu1>
+    <mu2>.2</mu2>
+  </gazebo>
+  
+   <gazebo reference='wheel_front_left'>
+    <mu1>.2</mu1>
+    <mu2>.2</mu2>
+  </gazebo>
+  
+   <gazebo reference='wheel_front_right'>
+    <mu1>.2</mu1>
+    <mu2>.2</mu2>
+  </gazebo>
+
+   <gazebo reference='wheel_back_right'>
+    <mu1>.2</mu1>
+    <mu2>.2</mu2>
+  </gazebo>
+  
+  <gazebo reference='lifter'>
+    <mu1>.2</mu1>
+    <mu2>.2</mu2>
+  </gazebo>
+
+  <gazebo>
+        <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+            
+           <left_joint>joint_wheel_back_left</left_joint>
+           <left_joint>joint_wheel_front_left</left_joint>
+           <right_joint>joint_wheel_back_right</right_joint>
+           <right_joint>joint_wheel_front_right</right_joint>
+
+            
+            <wheel_separation>.498</wheel_separation>
+            <wheel_radius>.0625</wheel_radius>
+            <topic>cmd_vel</topic>
+            <tf_topic>/tf</tf_topic>
+            <odom_topic>odom</odom_topic>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_footprint</child_frame_id>
+            <odom_publisher_frequency>30</odom_publisher_frequency>
+
+        </plugin>
+      </gazebo>
+<!-- <gazebo>      
+      <plugin name="gz_diff_drive" filename="gz-sim-diff-drive-system">
+ 
+
+  <left_joint>joint_wheel_back_left</left_joint>
+  <right_joint>joint_wheel_back_right</right_joint>
+
+  <wheel_separation>.498</wheel_separation>
+  <wheel_radius>.0625</wheel_radius>
+            <topic>cmd_vel</topic>
+            <tf_topic>/tf</tf_topic>
+            <odom_topic>odom</odom_topic>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_footprint</child_frame_id>
+            <odom_publisher_frequency>30</odom_publisher_frequency>
+
+</plugin>
+</gazebo> -->
+      <!-- <gazebo>
+  <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+    <topic>cmd_vel</topic>
+    <tf_topic>/tf</tf_topic>
+    <odom_topic>odom</odom_topic>
+    <update_rate>50</update_rate>
+    <left_joint>joint_wheel_back_left</left_joint>
+    <left_joint>joint_wheel_front_left</left_joint>
+    <right_joint>joint_wheel_back_right</right_joint>
+    <right_joint>joint_wheel_front_right</right_joint>
+    <wheel_separation>0.498</wheel_separation>
+    <wheel_diameter>0.125</wheel_diameter>
+    <odom_frame>odom</odom_frame>
+    <robot_base_frame>base_footprint</robot_base_frame>
+    <publish_odom>true</publish_odom>
+    <publish_tf>true</publish_tf>
+  </plugin>
+</gazebo> -->
+
+      
+      <gazebo>
+        <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+            <topic>/joint_states</topic>
+            <joint_name>joint_wheel_back_left</joint_name>
+            <joint_name>joint_wheel_front_left</joint_name>
+            <joint_name>joint_wheel_front_right</joint_name>
+            <joint_name>joint_wheel_back_right</joint_name>
+            <joint_name>Lifter_Movement</joint_name>
+        </plugin>
+  </gazebo>
+
+
+ <!-- ##############################################
+     LIDAR SENSOR (GPU LIDAR)
+############################################### -->
+<gazebo reference="laser_frame">
+  <sensor name="lidar_sensor" type="gpu_lidar">
+        <topic>scan</topic>
+        <update_rate>10</update_rate>
+        <always_on>true</always_on>
+        <visualize>false</visualize>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-1.57</min_angle>
+              <max_angle>1.57</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>0</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>.2</min>
+            <max>30</max>
+            <resolution>0.013</resolution>
+          </range>
+        </ray>
+        <gz_frame_id>laser_frame</gz_frame_id>
+      </sensor>
+    </gazebo>
+    
+    
+    <gazebo>
+      <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+      </plugin>
+    </gazebo>
+  
+<!-- ##############################################
+    LIFTER
+###############################################     -->
+
+
+
+ <gazebo>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>Lifter_Movement</joint_name>
+      <frame_id>lifter</frame_id>
+      <topic>/lifter_position</topic>
+      <p_gain>10.0</p_gain>
+      <i_gain>0.1</i_gain>
+      <d_gain>1.0</d_gain>
+    </plugin>
+  </gazebo>
+
+
+</robot>
