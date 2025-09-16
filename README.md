@@ -27,4 +27,4 @@ ros2-gazebo-robot/
 - ROS2 Jazzy.
 - Gazebo.
 - ROS2–Gazebo bridge for topic communication.
-![Simulation Screenshot](images/sim_screenshot.png)
+![Simulation Screenshot](Images/Screenshot from 2025-09-16 15-13-08.png)
